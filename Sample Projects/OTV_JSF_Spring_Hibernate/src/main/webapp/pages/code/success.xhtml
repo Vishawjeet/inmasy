@@ -1,0 +1,35 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Welcome to OTV_JSF_Spring_Hibernate_Project</title>
+	<style>#codes>tbody>tr>td { horizontal-align:center;width: 10%; }</style>
+</h:head>
+<h:body>
+	<h:form>
+		<h:outputText value="Codes : "></h:outputText>
+		<p:dataTable id="codes" var="code" value="#{codeMB.codeList}">
+			<p:column>
+				<f:facet name="header">
+					<h:outputText value="ID" />
+				</f:facet>
+				<h:outputText value="#{code.codeId}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">
+					<h:outputText value="Code" />
+				</f:facet>
+				<h:outputText value="#{code.codeCode}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">
+					<h:outputText value="Description" />
+				</f:facet>
+				<h:outputText value="#{code.codeShortDesc}" />
+			</p:column>
+		</p:dataTable>
+	</h:form>
+</h:body>
+
+</html>

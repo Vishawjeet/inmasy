@@ -1,0 +1,90 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+				http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+				http://www.springframework.org/schema/tx 
+		        http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+		        http://www.springframework.org/schema/context 
+		        http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+	<!-- Beans Declaration -->
+	<bean id="User" class="com.otv.model.User" />
+	<bean id="Code" class="com.otv.model.TCode" />
+	<bean id="Cdty" class="com.otv.model.TCodeType" />
+	<bean id="Actr" class="com.otv.model.TActor" />
+	<bean id="Puor" class="com.otv.model.TPurchaseOrder" />
+	<bean id="Acad" class="com.otv.model.TActorAddress" />
+
+	<!-- User Service Declaration -->
+	<bean id="UserService" class="com.otv.user.service.UserService">
+		<property name="userDAO" ref="UserDAO" />
+	</bean>
+	<bean id="CodeService" class="com.otv.user.service.CodeService">
+		<property name="codeDAO" ref="CodeDAO" />
+	</bean>
+
+	<!-- User DAO Declaration -->
+	<bean id="UserDAO" class="com.otv.user.dao.UserDAO">
+		<property name="sessionFactory" ref="SessionFactory" />
+	</bean>
+	<bean id="CodeDAO" class="com.otv.user.dao.CodeDAO">
+		<property name="sessionFactory" ref="SessionFactory" />
+	</bean>
+
+	<!-- Data Source Declaration -->
+	<bean id="DataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close">
+		<property name="driverClass" value="org.postgresql.Driver" />
+		<property name="jdbcUrl" value="jdbc:postgresql://localhost:5432/postgres" />
+		<property name="user" value="postgres" />
+		<property name="password" value="password" />
+		<property name="maxPoolSize" value="10" />
+		<property name="maxStatements" value="0" />
+		<property name="minPoolSize" value="5" />
+	</bean>
+
+	<!-- Session Factory Declaration -->
+	<bean id="SessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="DataSource" />
+		<property name="annotatedClasses">
+			<list>
+				<value>com.otv.model.User</value>
+				<value>com.otv.model.TCode</value>
+				<value>com.otv.model.TCodeType</value>
+				<value>com.otv.model.TActor</value>
+				<value>com.otv.model.TPurchaseOrder</value>
+				<value>com.otv.model.TActorAddress</value>
+				<value>com.otv.model.TAddress</value>
+				<value>com.otv.model.TCity</value>
+				<value>com.otv.model.TCountry</value>
+				<value>com.otv.model.TPlacedOrder</value>
+				<value>com.otv.model.TPlorRcorLink</value>
+				<value>com.otv.model.TPlorRmatLink</value>
+				<value>com.otv.model.TProduct</value>
+				<value>com.otv.model.TProperty</value>
+				<value>com.otv.model.TRawMaterial</value>
+				<value>com.otv.model.TRcorRmatLink</value>
+				<value>com.otv.model.TReceivedOrder</value>
+				<value>com.otv.model.TState</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+			</props>
+		</property>
+	</bean>
+
+	<!-- Enable the configuration of transactional behavior based on annotations -->
+	<tx:annotation-driven transaction-manager="txManager" />
+
+	<!-- Transaction Manager is defined -->
+	<bean id="txManager"
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="SessionFactory" />
+	</bean>
+
+</beans>
